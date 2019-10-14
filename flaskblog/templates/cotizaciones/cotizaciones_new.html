@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block content %}
+<script>
+        $(document).ready(function () {
+            $('#selProducto').on('change', function () {
+                idProducto = this.value;
+                $.ajax({
+                    data: {
+                        idProducto: idProducto
+                    },
+                    type: 'POST',
+                    url: '/cotizaciones/clientes_cotizacion_producto'
+                })
+                .done(function (data) {
+                    $("#precio:text").val(data.precio);
+                });
+            });
+            $('#submit_add_detalle').on('click', function() {
+                idProducto = $('input#selProducto').value;
+                alert(idProducto);
+                $.ajax({
+                    url: '/cotizaciones/clientes_cotizacion_producto/add"',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('form#form_cot_detalle').serialize(),
+                    success: function(data) {
+                            alert('agregado item');
+                            }
+                });
+            });
+        });
+    </script>
+<h1>Nueva Cotización</h1>
+<h2>{{ cliente.nombre + ' ' + cliente.apellido  }} / # {{ cotizacion.id }}</h2>
+<div class="content-section">
+        <fieldset class="form-group">
+            <legend class="border-botton mb-4">Productos</legend>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Agregar Productos
+                </button>
+            </div>
+            <div class="form-group">
+                
+                <input type="button" ></input>
+            </div>
+        </fieldset>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" id="form_cot_detalle">
+                    {{ form_cot_detalle.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            <h3>Seleccionar Producto</h3>
+                            <div class="form-group">
+                                {{ form_cot_detalle.selProducto.label(class="form=control-label") }}
+                                {% if form_cot_detalle.selProducto.errors %}
+                                {{ form_cot_detalle.selProducto(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form_cot_detalle.selProducto.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form_cot_detalle.selProducto(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_cot_detalle.cantidad.label(class="form-control-label") }}
+                                {% if form_cot_detalle.cantidad.errors %}
+                                {{ form_cot_detalle.cantidad(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form_cot_detalle.cantidad.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form_cot_detalle.cantidad(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form_cot_detalle.precio.label(class="form-control-label") }}
+                                {% if form_cot_detalle.precio.errors %}
+                                {{ form_cot_detalle.precio(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form_cot_detalle.precio.errors %}
+                                    <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                {{ form_cot_detalle.precio(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+
+                            {{ form_cot_detalle.submit_add_detalle(class="btn btn-primary") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

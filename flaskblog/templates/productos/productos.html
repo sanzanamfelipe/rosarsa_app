@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Productos</h1>
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('productos_new') }}">Agregar +</a>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('productos_tipofamilia') }}">Tipo Familia</a>
+</div>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Familia</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos.items %}
+        <tr>
+            <th scope="row"><a href="{{ url_for('productos_ficha', producto_id=producto.id)}}">{{ producto.id }}</a></th>
+            <td>{{ producto.codigoproducto }}</td>
+            <td>{{ producto.nombreproducto }}</td>
+            <td>{{ producto.tipo_familia.descripcion }}</td>
+            <td><img src="{{ producto.imagen }}" width="80" height="80" />  </td>
+            <td>
+                <a href="{{ url_for('productos_delete', producto_id=producto.id ) }}">
+                    <img src="../static/icons/delete-3x.png" alt="borrar" />
+                </a>
+                <a href="{{ url_for('productos_update', producto_id=producto.id ) }}">
+                    <img src="../static/icons/pencil-3x.png" alt="editar" />
+                </a>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% for page_num in productos.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+{% if productos.page == page_num %}
+<a class="btn btn-info mb-4" href="{{ url_for('productos', page=page_num) }}"> {{ page_num }} </a>
+{% else %}
+<a class="btn btn-outline-info mb-4" href="{{ url_for('productos', page=page_num) }}"> {{ page_num }} </a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% endblock content %}

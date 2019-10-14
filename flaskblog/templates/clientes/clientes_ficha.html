@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Ficha Cliente / {{ cliente.tipo_cliente }}</h1>
+<h2>{{ cliente.nombre + ' ' + cliente.apellido  }}</h2>
+<div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                href="{{ url_for('clientes_update', cliente_id=cliente.id) }}">Editar</a>
+        </div>
+        <div class="col-lg">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                href="{{ url_for('clientes', cliente_id=cliente.id) , 'mail'}}">Enviar Email</a>
+        </div>
+        <div class="col-lg">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                href="{{ url_for('clientes_cotizacion', cliente_id=cliente.id) }}">Enviar Cotización</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg"><b>Tipo Cliente:</b></div>
+        <div class="col-lg">{{ cliente.tipo_cliente }}</div>
+        <div class="col-lg"><b>Email:</b></div>
+        <div class="col-lg">{{ cliente.email }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Direccion:</b></div>
+    </div>
+    <div class="row">
+        <div class="col-lg">{{ cliente.direccion }} #{{ cliente.numero }}, Depto/Oficina {{ cliente.depto }}</div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-lg"><b>Comuna:</b></div>
+        <div class="col-lg">{{ cliente.comuna }}</div>
+        <div class="col-lg"><b>Web:</b></div>
+        <div class="col-lg">{{ cliente.web }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg">Telefono:</div>
+        <div class="col-lg">{{ cliente.telefono_fijo }}</div>
+        <div class="col-lg">Movil:</div>
+        <div class="col-lg">{{ cliente.telefono_movil }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Observaciones:</b></div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><i>{{ cliente.observaciones }}</i></div>
+    </div>
+    {% if cliente.tipo_cliente.id == 2 %}
+    <div class="row">
+        <div class="col-lg"><h3>Contactos:</h3></div>
+    </div>
+    <div class="row">
+        <div class="col-lg">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                href="{{ url_for('clientes_contactos_new', cliente_id=cliente.id) }}">Agregar+</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contacto in clientes_contactos %}
+            <tr>
+                <th scope="row">{{contacto.id}}</th>
+                <td>{{ contacto.nombre + ' ' +  contacto.apellido }}</td>
+                <td>{{ contacto.email }}</td>
+                <td>{{ contacto.cargo }}</td>
+                <td>
+                    <a href="{{ url_for('clientes_delete', cliente_id=contacto.id ) }}">
+                        <img src="../../static/icons/delete-3x.png" alt="borrar" />
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg"><h3><b>Ubicacion:</b></h3></div>
+    </div>
+    <div class="row">
+        <div class="col-lg">
+            <div class="mapouter">
+                <div class="gmap_canvas">
+                    <iframe width="600" height="500" id="gmap_canvas"
+                        src="https://maps.google.com/maps?q={{cliente.direccion}}%20{{ cliente.numero }}%20,{{ cliente.comuna }}&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                    <a href="https://www.enable-javascript.net">enable-javascript.net</a>
+                </div>
+                <style>
+                    .mapouter {
+                        position: relative;
+                        text-align: right;
+                        height: 500px;
+                        width: 600px;
+                    }
+
+                    .gmap_canvas {
+                        overflow: hidden;
+                        background: none !important;
+                        height: 500px;
+                        width: 600px;
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

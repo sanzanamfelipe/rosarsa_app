@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+<img src="{{ producto.imagen }}" alt="{{ producto.nombreproducto }}" class="rounded float-right" width="200" height="200" />
+<h1>Ficha Producto</h1>
+<h2>{{ producto.nombreproducto }}</h2>
+<h3>Cod: {{ producto.codigoproducto }} / EAN:{{ producto.ean11 }} </h3>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg">
+            <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                href="{{ url_for('productos', producto_id=producto.id), 'update' }}">Editar</a>
+        </div>
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg"><b>Tipo Familia:</b></div>
+        <div class="col-lg">{{ producto.tipo_familia.descripcion }}</div>
+        <div class="col-lg"></div>
+        <div class="col-lg"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Descripcion:</b></div>
+    </div>
+    <div class="row">
+        <div class="col-lg">{{ producto.descripcion }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Precio:</b></div>
+        <div class="col-lg">{{ producto.precio }}</div>
+        <div class="col-lg"><b>Ancho:</b></div>
+        <div class="col-lg">{{ producto.ancho }}</div>
+        <div class="col-lg"><b>Alto:</b></div>
+        <div class="col-lg">{{ producto.alto }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Peso:</b></div>
+        <div class="col-lg">{{ producto.peso }}</div>
+        <div class="col-lg"><b>Tipo Peso:</b></div>
+        <div class="col-lg">{{ producto.tipopeso }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Volumen:</b></div>
+        <div class="col-lg">{{ producto.volumen }}</div>
+        <div class="col-lg"><b>Tipo Volumen:</b></div>
+        <div class="col-lg">{{ producto.tipovolumen }}</div>
+    </div>
+    <div class="row">
+        <div class="col-lg"><b>Observaciones:</b></div>
+    </div>
+    <div class="row">
+        <div class="col-lg">{{ producto.observaciones }}</div>
+    </div>
+    <fieldset class="form-group">
+        <legend class="border-botton mb-4">Datos Web Cliente</legend>
+        <div class="row">
+            <div class="col-lg"><b>Visible Web:</b></div>
+            <div class="col-lg">{{ producto.visible_web }}</div>
+            <div class="col-lg"><b>Nombre Web:</b></div>
+            <div class="col-lg">{{ producto.nombreproducto_web }}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg">{{ producto.observaciones }}</div>
+        </div>
+        <div class="row">
+            <div class="col-lg"><b>Descripcion Web:</b></div>
+        </div>
+        <div class="row">
+            <div class="col-lg">{{ producto.descripcion_web }}</div>
+        </div>
+    </fieldset>
+</div>
+
+<fieldset class="form-group">
+        <legend class="border-botton mb-4">Información:</legend>
+</fieldset>
+
+
+
+{% endblock content %}
