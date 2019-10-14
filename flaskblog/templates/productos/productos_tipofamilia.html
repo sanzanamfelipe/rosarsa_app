@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>Tipo Familia Productos</h1>
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('productos_tipofamilia_new') }}">Agregar +</a>
+</div>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% for tipo_familia in producto_tipofamilia %}
+            <tr>
+                <th scope="row">{{tipo_familia.id}}</th>
+                <td>{{ tipo_familia.descripcion }}</td>
+                
+                <td>
+                    <a href="{{ url_for('productos_tipofamilia_delete', tipo_familia_id=tipo_familia.id ) }}">
+                        <img src="../static/icons/delete-3x.png" alt="borrar" />
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+    </tbody> 
+</table>
+
+{% endblock content %}
